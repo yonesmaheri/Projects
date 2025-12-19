@@ -10,22 +10,22 @@ function App() {
 
 
   useEffect(() => {
-  setLoading(true);
+    setLoading(true);
 
-  fetch(
-    `https://api.pexels.com/v1/curated?per_page=9&page=${page}`,
-    {
-      headers: {
-        Authorization: 'uQEI62kXZVgQTz1VvrW1CkSvd72DfPVhhGGOD4JIjw7hwToTa1WytcC8',
-      },
-    }
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      setPhotos((prev) => [...prev, ...data.photos]);
-    })
-    .finally(() => setLoading(false));
-}, [page]);
+    fetch(
+      `https://api.pexels.com/v1/curated?per_page=9&page=${page}`,
+      {
+        headers: {
+          Authorization: 'uQEI62kXZVgQTz1VvrW1CkSvd72DfPVhhGGOD4JIjw7hwToTa1WytcC8',
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setPhotos((prev) => [...prev, ...data.photos]);
+      })
+      .finally(() => setLoading(false));
+  }, [page]);
 
 
   return (
