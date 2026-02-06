@@ -1,8 +1,9 @@
-import { useExpense } from "../context/ExpenseContext";
+import { useSelector } from "react-redux";
+import { selectIncomeExpenseBalance } from "../store/selectors";
 import SummaryItem from "./SummaryItem";
 
 export default function Summary() {
-  const { income, expense, balance } = useExpense();
+  const { income, expense, balance } = useSelector(selectIncomeExpenseBalance);
 
   return (
     <div className="grid grid-cols-3 gap-3 sm:gap-4">

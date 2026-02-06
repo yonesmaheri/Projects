@@ -1,9 +1,13 @@
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { useExpense } from "../context/ExpenseContext";
+import { addTransaction } from "../store/expenseSlice";
 import AddCategory from "./AddCategory";
 
 export default function TransactionForm() {
-  const { addTransaction, categories } = useExpense();
+  const dispatch = useDispatch();
+  const categories = useSelector(
+    (state) => state.expense.categories
+  );
 
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
@@ -15,15 +19,19 @@ export default function TransactionForm() {
     if (!title || !amount) return;
 
     const finalAmount =
-      type === "expense" ? -Math.abs(amount) : Math.abs(amount);
+      type === "expense"
+        ? -Math.abs(Number(amount))
+        : Math.abs(Number(amount));
 
-    addTransaction({
-      id: crypto.randomUUID(),
-      title,
-      amount: Number(finalAmount),
-      category,
-      date: new Date().toString(),
-    });
+    dispatch(
+      addTransaction({
+        id: crypto.randomUUID(),
+        title,
+        amount: finalAmount,
+        category,
+        date: new Date().toString(),
+      })
+    );
 
     setTitle("");
     setAmount("");
@@ -56,8 +64,7 @@ export default function TransactionForm() {
         <div className="space-y-1">
           <label className="text-xs text-slate-500">Title</label>
           <input
-            className="w-full bg-slate-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-slate-200"
-            placeholder="Grocery, Taxi, Salary..."
+            className="w-full bg-slate-50 rounded-lg px-3 py-2 text-sm"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -67,8 +74,7 @@ export default function TransactionForm() {
           <label className="text-xs text-slate-500">Amount</label>
           <input
             type="number"
-            className="w-full bg-slate-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-slate-200"
-            placeholder="0"
+            className="w-full bg-slate-50 rounded-lg px-3 py-2 text-sm"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
@@ -77,23 +83,24 @@ export default function TransactionForm() {
         <div className="space-y-1">
           <label className="text-xs text-slate-500">Category</label>
           <select
-            className="w-full bg-slate-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-slate-200"
+            className="w-full bg-slate-50 rounded-lg px-3 py-2 text-sm"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            {categories.map((category) => (
-              <option key={category}>{category}</option>
+            {categories.map((c) => (
+              <option key={c}>{c}</option>
             ))}
           </select>
         </div>
 
         <button
           type="submit"
-          className="w-full py-2 rounded-xl bg-slate-900/90 text-white text-sm hover:bg-slate-900 transition"
+          className="w-full py-2 rounded-xl bg-slate-900/90 text-white text-sm"
         >
           Add Transaction
         </button>
       </form>
+
       <AddCategory />
     </div>
   );

@@ -6,12 +6,13 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { useExpense } from "../../context/ExpenseContext";
+import { useSelector } from "react-redux";
+import { selectCategoryTotals } from "../../store/selectors";
 
 const chartColors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A855F7"];
 
 export default function CategoryPieChart() {
-  const { categoryTotals } = useExpense();
+  const categoryTotals = useSelector(selectCategoryTotals);
 
   const data = Object.entries(categoryTotals).map(([name, value]) => ({
     name,
@@ -40,7 +41,10 @@ export default function CategoryPieChart() {
             label
           >
             {data.map((_, index) => (
-              <Cell key={index} fill={chartColors[index % 5]} />
+              <Cell
+                key={index}
+                fill={chartColors[index % chartColors.length]}
+              />
             ))}
           </Pie>
 

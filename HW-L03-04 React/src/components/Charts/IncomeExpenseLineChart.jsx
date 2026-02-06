@@ -7,10 +7,11 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { useExpense } from "../../context/ExpenseContext";
+import { useSelector } from "react-redux";
+import { selectTimeSeries } from "../../store/selectors";
 
 export default function IncomeExpenseLineChart() {
-  const { timeSeries } = useExpense();
+  const timeSeries = useSelector(selectTimeSeries);
 
   if (!timeSeries.length) {
     return <p className="text-center text-gray-500">No data for chart</p>;

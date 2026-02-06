@@ -1,10 +1,17 @@
-import { useExpense } from "../context/ExpenseContext";
+import { useDispatch, useSelector } from "react-redux";
+import { removeTransaction } from "../store/expenseSlice";
+import { selectFilteredTransactions } from "../store/selectors";
 
 export default function TransactionList() {
-  const { filteredTransactions, removeTransaction } = useExpense();
+  const dispatch = useDispatch();
+  const filteredTransactions = useSelector(selectFilteredTransactions);
 
   if (!filteredTransactions.length) {
-    return <p className="text-gray-500 text-center">No transactions yet</p>;
+    return (
+      <p className="text-gray-500 text-center">
+        No transactions yet
+      </p>
+    );
   }
 
   return (
@@ -25,14 +32,18 @@ export default function TransactionList() {
           <div className="flex items-center gap-4">
             <span
               className={`font-bold ${
-                transaction.amount < 0 ? "text-red-500" : "text-green-500"
+                transaction.amount < 0
+                  ? "text-red-500"
+                  : "text-green-500"
               }`}
             >
               {transaction.amount}
             </span>
 
             <button
-              onClick={() => removeTransaction(transaction.id)}
+              onClick={() =>
+                dispatch(removeTransaction(transaction.id))
+              }
               className="text-red-500"
             >
               ✕

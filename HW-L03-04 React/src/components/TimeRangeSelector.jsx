@@ -1,4 +1,5 @@
-import { useExpense } from "../context/ExpenseContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setTimeRange } from "../store/expenseSlice";
 
 const ranges = [
   { key: "minute", label: "Minute" },
@@ -7,7 +8,10 @@ const ranges = [
 ];
 
 export default function TimeRangeSelector() {
-  const { timeRange, setTimeRange } = useExpense();
+  const dispatch = useDispatch();
+  const timeRange = useSelector(
+    (state) => state.expense.timeRange
+  );
 
   return (
     <div className="flex justify-center">
@@ -15,13 +19,12 @@ export default function TimeRangeSelector() {
         {ranges.map(({ key, label }) => (
           <button
             key={key}
-            onClick={() => setTimeRange(key)}
-            className={`px-4 py-1.5 text-sm rounded-lg transition-all
-              ${
-                timeRange === key
-                  ? "bg-white text-slate-900 shadow-sm"
-                  : "text-slate-500 hover:text-slate-700"
-              }`}
+            onClick={() => dispatch(setTimeRange(key))}
+            className={`px-4 py-1.5 text-sm rounded-lg transition-all ${
+              timeRange === key
+                ? "bg-white text-slate-900 shadow-sm"
+                : "text-slate-500 hover:text-slate-700"
+            }`}
           >
             {label}
           </button>

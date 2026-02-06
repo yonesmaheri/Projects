@@ -1,30 +1,38 @@
-import { useExpense } from "../context/ExpenseContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setSearchQuery,
+  setSelectedCategory,
+  setDateRange,
+  resetFilters,
+} from "../store/expenseSlice";
 
 export default function TransactionFilters() {
+  const dispatch = useDispatch();
+
   const {
     searchQuery,
-    setSearchQuery,
     categories,
     selectedCategory,
-    setSelectedCategory,
     dateRange,
-    setDateRange,
-    resetFilters,
-  } = useExpense();
+  } = useSelector((state) => state.expense);
 
   return (
     <div className="bg-white/80 backdrop-blur p-4 rounded-2xl shadow-sm space-y-3">
       <input
         placeholder="Search by title or amount"
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full bg-slate-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-slate-200"
+        onChange={(e) =>
+          dispatch(setSearchQuery(e.target.value))
+        }
+        className="w-full bg-slate-50 rounded-lg px-3 py-2 text-sm"
       />
 
       <select
         value={selectedCategory}
-        onChange={(e) => setSelectedCategory(e.target.value)}
-        className="w-full bg-slate-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-slate-200"
+        onChange={(e) =>
+          dispatch(setSelectedCategory(e.target.value))
+        }
+        className="w-full bg-slate-50 rounded-lg px-3 py-2 text-sm"
       >
         <option value="all">All Categories</option>
         {categories.map((category) => (
@@ -37,32 +45,36 @@ export default function TransactionFilters() {
           type="date"
           value={dateRange.from}
           onChange={(e) =>
-            setDateRange((prev) => ({
-              ...prev,
-              from: e.target.value,
-            }))
+            dispatch(
+              setDateRange({
+                ...dateRange,
+                from: e.target.value,
+              })
+            )
           }
-          className="flex-1 bg-slate-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-slate-200"
+          className="flex-1 bg-slate-50 rounded-lg px-3 py-2 text-sm"
         />
 
         <input
           type="date"
           value={dateRange.to}
           onChange={(e) =>
-            setDateRange((prev) => ({
-              ...prev,
-              to: e.target.value,
-            }))
+            dispatch(
+              setDateRange({
+                ...dateRange,
+                to: e.target.value,
+              })
+            )
           }
-          className="flex-1 bg-slate-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-slate-200"
+          className="flex-1 bg-slate-50 rounded-lg px-3 py-2 text-sm"
         />
       </div>
 
       <div className="flex justify-end">
         <button
           type="button"
-          onClick={resetFilters}
-          className="text-xs text-slate-500 hover:text-slate-700 shadow-md p-2 rounded-lg bg-red-100/50 transition"
+          onClick={() => dispatch(resetFilters())}
+          className="text-xs text-slate-500 bg-red-100/50 p-2 rounded-lg"
         >
           Reset filters
         </button>
