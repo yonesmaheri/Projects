@@ -31,6 +31,7 @@ export default function TransactionForm() {
         amount: finalAmount,
         category,
         date: new Date().toString(),
+        type,
       }),
     );
 

@@ -3,9 +3,15 @@ import type { Transaction } from "../store/expenseSlice";
 export function exportTransactionsToCSV(transactions: Transaction[]): void {
   if (!transactions.length) return;
 
-  const headers = ["Title", "Amount", "Category", "Date"];
+  const headers = ["Title", "Amount", "Category", "Date", "Type"];
 
-  const rows = transactions.map((t) => [t.title, t.amount, t.category, t.date]);
+  const rows = transactions.map((t) => [
+    t.title,
+    t.amount,
+    t.category,
+    t.date,
+    t.type,
+  ]);
 
   const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join(
     "\n",

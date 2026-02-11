@@ -6,6 +6,7 @@ export type Transaction = {
   amount: number;
   category: string;
   date: string;
+  type: "income" | "expense";
 };
 
 export type DateRange = {
@@ -30,7 +31,14 @@ const loadTransactions = (): Transaction[] => {
     if (!raw) return [];
     const parsed = JSON.parse(raw) as Transaction[];
     if (!Array.isArray(parsed)) return [];
-    return parsed;
+    return parsed.map((t) => ({
+      ...t,
+      type:
+        t.type ||
+        (t.amount >= 0
+          ? ("income" as const)
+          : ("expense" as const)),
+    }));
   } catch {
     return [];
   }

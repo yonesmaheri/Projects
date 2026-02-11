@@ -12,7 +12,7 @@ export function exportTransactionsToPDF(transactions: Transaction[]): void {
   transactions.forEach((t) => {
     doc.setFontSize(10);
     doc.text(
-      `${t.title} | ${t.amount} | ${t.category} | ${new Date(
+      `${t.title} | ${t.amount} | ${t.category} | ${t.type} | ${new Date(
         t.date,
       ).toLocaleDateString()}`,
       10,

@@ -17,12 +17,15 @@ export function importTransactionsFromCSV(
       .map((line) => {
         const [title, amount, category, date] = line.split(",");
 
+        const numericAmount = Number(amount);
+
         return {
           id: crypto.randomUUID(),
           title,
-          amount: Number(amount),
+          amount: numericAmount,
           category,
           date,
+          type: numericAmount >= 0 ? "income" : "expense",
         };
       });
 
