@@ -1,5 +1,3 @@
-import React from 'react'
-
 function Dashboard() {
   return (
     <div className='w-3/4 h-100 mx-auto border border-dashed border-subtle text-center rounded-lg flex items-center justify-center flex-col gap-4'> 
