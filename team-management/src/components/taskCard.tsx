@@ -1,7 +1,6 @@
 import type { Status, Task } from "@/types/task";
 import { useDraggable } from "@dnd-kit/core";
 import { GripVertical } from "lucide-react";
-import { CSS } from "@dnd-kit/utilities";
 
 function TaskCard({
   task,
