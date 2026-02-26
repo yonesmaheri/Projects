@@ -1,10 +1,11 @@
 import { useProjects } from "../context/projectContext";
 import { Link } from "react-router-dom";
 import AddProject from "@/components/addProject";
+import { useAuth } from "@/context/authContext";
 
 export default function Projects() {
   const { projects, addProject, deleteProject } = useProjects();
-
+  const { user } = useAuth();
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -22,12 +23,14 @@ export default function Projects() {
               {project.title}
             </Link>
 
-            <button
-              onClick={() => deleteProject(project.id)}
-              className="text-red-500"
-            >
-              Delete
-            </button>
+            {user?.role === "manager" && (
+              <button
+                onClick={() => deleteProject(project.id)}
+                className="text-red-500"
+              >
+                Delete
+              </button>
+            )}
           </div>
         ))}
       </div>

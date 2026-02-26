@@ -11,6 +11,7 @@ import { addUser } from "@/utils/userService";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import CustomInput from "./customInput";
+import { Button } from "./ui/button";
 
 function AddUser({ users, setUsers }: { users: User[]; setUsers: any }) {
   const [open, setOpen] = useState(false);
@@ -36,15 +37,15 @@ function AddUser({ users, setUsers }: { users: User[]; setUsers: any }) {
     setEmail("");
     setPassword("");
     setRole("member");
-    setOpen(false)
+    setOpen(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="text-black px-10 py-2 rounded-2xl bg-white hover:bg-white/90 border border-subtle transition">
+        <Button variant={"secondary"} className="py-5 px-10 rounded-2xl">
           Add new member
-        </button>
+        </Button>
       </DialogTrigger>
       <DialogContent className="space-y-3 border border-subtle rounded-3xl bg-sidebar">
         <DialogHeader>

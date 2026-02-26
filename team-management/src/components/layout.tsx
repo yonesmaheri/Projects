@@ -12,7 +12,7 @@ const Layout = () => {
       <div className="p-4">
         <Outlet />
       </div>
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="bottom-center" reverseOrder={false} />
     </div>
   );
 };
